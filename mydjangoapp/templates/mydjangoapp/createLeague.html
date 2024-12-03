@@ -23,13 +23,11 @@
         <div class="form-group">
             <label for="id_user">Owner <span>*</span></label>
             <select id="id_user" name="user" required>
-                <option value="" disabled selected>Select owner</option>
-                {% for user in users %}
-                <option value="{{ user.id }}">{{ user.username }}</option>
-                {% endfor %}
+                <option value="{{ request.user.id }}" selected>{{ request.user.username }}</option>
             </select>
             <div class="error"></div>
         </div>
+        
  
         <div class="form-group">
             <label for="id_draftdate">Draft Date</label>

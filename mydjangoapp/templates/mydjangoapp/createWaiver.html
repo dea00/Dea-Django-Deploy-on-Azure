@@ -1,42 +1,51 @@
 {% extends 'mydjangoapp/base.html' %}
 
-{% block title %}Waiver - Fantasia Game{% endblock %}
+{% block title %}Create Waiver{% endblock %}
 
 {% block content %}
 <div class="create-league-container">
-    <h1>Waiver</h1>
+    <h1>Create Waiver</h1>
     <form method="POST" class="create-league-form">
         {% csrf_token %}
-        {{ form.non_field_errors }}
 
+        <!-- Team Dropdown -->
         <div class="form-group">
             <label for="id_team">Team <span>*</span></label>
-            {{ form.team }}
-            <div class="error">{{ form.team.errors }}</div>
+            <select id="id_team" name="team" required>
+                <option value="" disabled selected>Select a team</option>
+                {% for team in teams %}
+                <option value="{{ team.0 }}">{{ team.1 }}</option>
+                {% endfor %}
+            </select>
         </div>
 
+        <!-- Player Dropdown -->
         <div class="form-group">
             <label for="id_player">Player <span>*</span></label>
-            {{ form.player }}
-            <div class="error">{{ form.player.errors }}</div>
+            <select id="id_player" name="player" required>
+                <option value="" disabled selected>Select a player</option>
+                {% for player in players %}
+                <option value="{{ player.0 }}">{{ player.1 }}</option>
+                {% endfor %}
+            </select>
         </div>
 
+        <!-- Waiver Order -->
         <div class="form-group">
             <label for="id_waiverorder">Waiver Order <span>*</span></label>
-            {{ form.waiverorder }}
-            <div class="error">{{ form.waiverorder.errors }}</div>
+            <input type="number" id="id_waiverorder" name="waiverorder" required>
         </div>
 
+        <!-- Waiver Status -->
         <div class="form-group">
             <label for="id_waiverstatus">Waiver Status</label>
-            {{ form.waiverstatus }}
-            <div class="error">{{ form.waiverstatus.errors }}</div>
+            <input type="text" id="id_waiverstatus" name="waiverstatus">
         </div>
 
+        <!-- Waiver Pickup Date -->
         <div class="form-group">
             <label for="id_waiverpickupdate">Pickup Date</label>
-            {{ form.waiverpickupdate }}
-            <div class="error">{{ form.waiverpickupdate.errors }}</div>
+            <input type="date" id="id_waiverpickupdate" name="waiverpickupdate">
         </div>
 
         <button type="submit" class="create-btn">Submit</button>

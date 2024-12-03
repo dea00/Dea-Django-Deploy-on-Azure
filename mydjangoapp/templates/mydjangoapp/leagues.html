@@ -136,8 +136,8 @@
                         <th scope="col">Owner</th>
                         <th scope="col">Max Teams</th>
                         <th scope="col">Draft Date</th>
-                        <th scope="col">Update</th>
-                        <th scope="col">Delete</th>
+                        <!-- <th scope="col">Update</th>
+                        <th scope="col">Delete</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -149,12 +149,12 @@
                         <td>{{ league.user.username }}</td>
                         <td>{{ league.maxteams }}</td>
                         <td>{{ league.draftdate }}</td>
-                        <td>
+                        <!-- <td>
                             <a href="{% url 'updateLeague' league.league_id %}" class="btn btn-primary">Update</a>
                         </td>
                         <td>
                             <a href="{% url 'deleteLeague' league.league_id %}" class="btn btn-danger">Delete</a>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <tr>

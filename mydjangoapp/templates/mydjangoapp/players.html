@@ -173,7 +173,7 @@
                             <th>Real Team</th>
                             <th>Fantasy Points</th>
                             <th>Availability</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -186,10 +186,10 @@
                             <td>{{ player.realteam }}</td>
                             <td>{{ player.fantasypoints }}</td>
                             <td>{{ player.availabilitystatus }}</td>
-                            <td>
+                            <!-- <td>
                                 <a href="{% url 'updatePlayer' player.player_id %}" class="btn-primary">Update</a>
                                 <a href="{% url 'deletePlayer' player.player_id %}" class="btn-danger">Delete</a>
-                            </td>
+                            </td> -->
                         </tr>
                         {% empty %}
                         <tr>

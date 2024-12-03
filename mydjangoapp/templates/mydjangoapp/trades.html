@@ -128,8 +128,8 @@
                         <th scope="col">Traded Player 1</th>
                         <th scope="col">Traded Player 2</th>
                         <th scope="col">Trade Date</th>
-                        <th scope="col">Update</th>
-                        <th scope="col">Delete</th>
+                        <!-- <th scope="col">Update</th>
+                        <th scope="col">Delete</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -141,12 +141,12 @@
                         <td>{{ trade.tradedplayer1.fullname }}</td>
                         <td>{{ trade.tradedplayer2.fullname }}</td>
                         <td>{{ trade.tradedate }}</td>
-                        <td>
+                        <!-- <td>
                             <a href="{% url 'updateTrade' trade.trade_id %}" class="btn btn-primary">Update</a>
                         </td>
                         <td>
                             <a href="{% url 'deleteTrade' trade.trade_id %}" class="btn btn-danger">Delete</a>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <tr>

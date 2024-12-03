@@ -204,40 +204,71 @@ def leagues(request):
 #             return redirect(reverse('users', args=[request.user.id]))
 #     context={'form':form}
 #     return render(request, 'mydjangoapp/createLeague.html', context)
+
+@login_required
 def createLeague(request):
     if request.method == 'POST':
+        # Retrieve the form data
         leaguename = request.POST.get('leaguename')
-        leaguetype = request.POST.get('leaguetype')
         maxteams = request.POST.get('maxteams')
+        user_id = request.user.id  # Always set the logged-in user as the owner
         draftdate = request.POST.get('draftdate')
-        user_id = request.POST.get('user')
- 
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute("""
-                    INSERT INTO leagues (leaguename, leaguetype, maxteams, draftdate, user_id)
-                    VALUES (%s, %s, %s, %s, %s)
-                """, [leaguename, leaguetype, maxteams, draftdate, user_id])
-            return redirect('leagues')
-        except Exception as e:
-            return HttpResponse(f"An error occurred: {e}")
- 
-    # Include users in the context for the dropdown
-    users = AuthUser.objects.all()
-    return render(request, 'mydjangoapp/createLeague.html', {'users': users})
+        leaguetype = request.POST.get('leaguetype')
 
-@login_required(login_url='login')
+        # Insert the data using raw SQL
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO leagues (leaguename, maxteams, user_id, draftdate, leaguetype)
+                VALUES (%s, %s, %s, %s, %s)
+                """,
+                [leaguename, maxteams, user_id, draftdate, leaguetype]
+            )
+        return redirect('leagues')
+
+    # Pass the current user to the template for the dropdown
+    context = {'users': [request.user]}
+    return render(request, 'mydjangoapp/createLeague.html', context)
+
+
+@login_required
 def createTeam(request):
-    form = TeamForm()
     if request.method == 'POST':
-        # print('Printing POST:', request.POST)
-        form = TeamForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('users', args=[request.user.id]))
-       
-    context={'form':form}
+        # Retrieve the form data
+        teamname = request.POST.get('teamname')
+        team_owner = request.user.id  # Automatically set the logged-in user as the owner
+        league = request.POST.get('league')
+        totalpoints = request.POST.get('totalpoints')
+        ranking = request.POST.get('ranking')
+        status = request.POST.get('status')
+
+        # Insert the data using raw SQL
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO teams (teamname, team_owner, league_id, totalpoints, ranking, status)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """,
+                [teamname, team_owner, league, totalpoints, ranking, status]
+            )
+        return redirect(reverse('users', args=[request.user.id]))
+
+    # Filter leagues to show only those belonging to the logged-in user
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT league_id, leaguename FROM leagues WHERE user_id = %s
+            """,
+            [request.user.id]
+        )
+        leagues = cursor.fetchall()
+
+    context = {
+        'leagues': leagues,
+        'users': [request.user],  # Restrict the dropdown to the logged-in user
+    }
     return render(request, 'mydjangoapp/createTeam.html', context)
+
  
 # @login_required(login_url='login')
 # def createTeam(request):
@@ -594,47 +625,65 @@ def users(request, pk_test):
     # Fetch waivers related to the user's teams using raw SQL
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT w.waiver_id, w.team_id, w.player_id, w.waiverorder, w.waiverstatus, w.waiverpickupdate
+            SELECT 
+                w.waiver_id, 
+                t.teamname AS team_name, 
+                p.fullname AS player_name, 
+                w.waiverorder, 
+                w.waiverstatus, 
+                w.waiverpickupdate
             FROM waivers w
             INNER JOIN teams t ON w.team_id = t.team_id
+            INNER JOIN players p ON w.player_id = p.player_id
             WHERE t.team_owner = %s
         """, [user.id])
         waivers = cursor.fetchall()
- 
+
     waivers_data = [
         {
             'waiver_id': row[0],
-            'team_id': row[1],
-            'player_id': row[2],
+            'team_name': row[1],
+            'player_name': row[2],
             'waiverorder': row[3],
             'waiverstatus': row[4],
             'waiverpickupdate': row[5],
         }
         for row in waivers
     ]
+
  
     # Fetch trades related to the user's teams using raw SQL
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT tr.trade_id, tr.team1_id, tr.team2_id, tr.tradedplayer1_id, tr.tradedplayer2_id, tr.tradedate
+            SELECT 
+                tr.trade_id, 
+                t1.teamname AS team1_name, 
+                t2.teamname AS team2_name, 
+                p1.fullname AS player1_name, 
+                p2.fullname AS player2_name, 
+                tr.tradedate
             FROM trades tr
             INNER JOIN teams t1 ON tr.team1_id = t1.team_id
             INNER JOIN teams t2 ON tr.team2_id = t2.team_id
+            INNER JOIN players p1 ON tr.tradedplayer1_id = p1.player_id
+            INNER JOIN players p2 ON tr.tradedplayer2_id = p2.player_id
             WHERE t1.team_owner = %s OR t2.team_owner = %s
         """, [user.id, user.id])
         trades = cursor.fetchall()
- 
+
+    # Process fetched data into a structured format
     trades_data = [
         {
             'trade_id': row[0],
-            'team1_id': row[1],
-            'team2_id': row[2],
-            'tradedplayer1_id': row[3],
-            'tradedplayer2_id': row[4],
+            'team1_name': row[1],
+            'team2_name': row[2],
+            'player1_name': row[3],
+            'player2_name': row[4],
             'tradedate': row[5],
         }
         for row in trades
     ]
+
  
     # Fetch drafts related to the user's leagues using raw SQL
     with connection.cursor() as cursor:
@@ -686,16 +735,62 @@ def waivers(request):
     return render(request, 'mydjangoapp/waivers.html', context)
  
 @login_required(login_url='login')
-def createWaiver(request):
-    form = WaiverForm()
-    if request.method == 'POST':
-        form = WaiverForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('users', args=[request.user.id]))  # Redirect to the waivers page
-    context = {'form': form}
-    return render(request, 'mydjangoapp/createWaiver.html', context)
+# def createWaiver(request):
+#     form = WaiverForm()
+#     if request.method == 'POST':
+#         form = WaiverForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect(reverse('users', args=[request.user.id]))  # Redirect to the waivers page
+#     context = {'form': form}
+#     return render(request, 'mydjangoapp/createWaiver.html', context)
  
+def createWaiver(request):
+    if request.method == 'POST':
+        # Retrieve the form data
+        team_id = request.POST.get('team')  # Team dropdown selection
+        player_id = request.POST.get('player')  # Player dropdown selection
+        waiverorder = request.POST.get('waiverorder')
+        waiverstatus = request.POST.get('waiverstatus')
+        waiverpickupdate = request.POST.get('waiverpickupdate')
+
+        # Insert the data into the waivers table using raw SQL
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO waivers (team_id, player_id, waiverorder, waiverstatus, waiverpickupdate)
+                VALUES (%s, %s, %s, %s, %s)
+                """,
+                [team_id, player_id, waiverorder, waiverstatus, waiverpickupdate]
+            )
+        return redirect(reverse('users', args=[request.user.id]))
+
+    # Fetch all teams where the logged-in user is the owner
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT team_id, teamname FROM teams WHERE team_owner = %s
+            """,
+            [request.user.id]
+        )
+        teams = cursor.fetchall()
+
+    # Fetch all available players
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT player_id, fullname FROM players
+            """
+        )
+        players = cursor.fetchall()
+
+    context = {
+        'teams': teams,  # Teams belonging to the logged-in user
+        'players': players,  # All players available in the database
+    }
+    return render(request, 'mydjangoapp/createWaiver.html', context)
+
+
 # def loginPage(request):
 #     if request.method == 'POST':
 #         form = LoginForm(request.POST)  # Assume you have a LoginForm in forms.py

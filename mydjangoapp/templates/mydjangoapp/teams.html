@@ -137,7 +137,7 @@
                         <th>Total Points</th>
                         <th>Ranking</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <!-- <th>Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -150,10 +150,10 @@
                         <td>{{ team.totalpoints }}</td>
                         <td>{{ team.ranking }}</td>
                         <td>{{ team.status }}</td>
-                        <td>
+                        <!-- <td>
                             <a href="{% url 'updateTeam' team.team_id %}" class="btn btn-primary">Update</a>
                             <a href="{% url 'deleteTeam' team.team_id %}" class="btn btn-danger">Delete</a>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <tr>

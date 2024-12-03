@@ -110,43 +110,41 @@
         <a href="{% url 'createTeam' %}" class="btn btn-success">+ Create a New Team</a>
     </div>
 
-    <!-- Waivers Table -->
-    <h2>Your Waivers</h2>
+    <h2>Your Trades</h2>
     <table class="styled-table">
         <thead>
             <tr>
-                <th>Waiver ID</th>
-                <th>Team</th>
-                <th>Player</th>
-                <th>Order</th>
-                <th>Status</th>
-                <th>Pickup Date</th>
+                <th>Trade ID</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Player 1</th>
+                <th>Player 2</th>
+                <th>Trade Date</th>
                 <th>Update</th>
                 <th>Remove</th>
             </tr>
         </thead>
         <tbody>
-            {% for waiver in waivers %}
+            {% for trade in trades %}
             <tr>
-                <td>{{ waiver.waiver_id }}</td>
-                <td>{{ waiver.team.teamname }}</td>
-                <td>{{ waiver.player.fullname }}</td>
-                <td>{{ waiver.waiverorder }}</td>
-                <td>{{ waiver.waiverstatus }}</td>
-                <td>{{ waiver.waiverpickupdate }}</td>
-                <td><a href="{% url 'updateWaiver' waiver.waiver_id %}">Update</a></td>
-                <td><a href="{% url 'deleteWaiver' waiver.waiver_id %}">Remove</a></td>
+                <td>{{ trade.trade_id }}</td>
+                <td>{{ trade.team1_name }}</td> <!-- Team 1 Name -->
+                <td>{{ trade.team2_name }}</td> <!-- Team 2 Name -->
+                <td>{{ trade.player1_name }}</td> <!-- Player 1 Name -->
+                <td>{{ trade.player2_name }}</td> <!-- Player 2 Name -->
+                <td>{{ trade.tradedate }}</td>
+                <td><a href="{% url 'updateTrade' trade.trade_id %}">Update</a></td>
+                <td><a href="{% url 'deleteTrade' trade.trade_id %}">Remove</a></td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6">No waivers available.</td>
+                <td colspan="8">No trades available.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <div class="create-card">
-        <a href="{% url 'createWaiver' %}" class="btn btn-success">+ Create a New Waiver</a>
-    </div>
+    
+    
 
     <!-- Drafts Table -->
     <h2>Your Drafts</h2>
@@ -203,25 +201,21 @@
             {% for trade in trades %}
             <tr>
                 <td>{{ trade.trade_id }}</td>
-                <td>{{ trade.team1.teamname }}</td>
-                <td>{{ trade.team2.teamname }}</td>
-                <td>{{ trade.tradedplayer1.fullname }}</td>
-                <td>{{ trade.tradedplayer2.fullname }}</td>
+                <td>{{ trade.team1_name }}</td>
+                <td>{{ trade.team2_name }}</td>
+                <td>{{ trade.player1_name }}</td>
+                <td>{{ trade.player2_name }}</td>
                 <td>{{ trade.tradedate }}</td>
                 <td><a href="{% url 'updateTrade' trade.trade_id %}">Update</a></td>
                 <td><a href="{% url 'deleteTrade' trade.trade_id %}">Remove</a></td>
-
-
-                
-                
-
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6">No trades available.</td>
+                <td colspan="8">No trades available.</td>
             </tr>
             {% endfor %}
         </tbody>
+        
     </table>
     <div class="create-card">
         <a href="{% url 'createTrade' %}" class="btn btn-success">+ Create a New Trade</a>

@@ -136,8 +136,8 @@
                         <th scope="col">Order</th>
                         <th scope="col">Status</th>
                         <th scope="col">Pickup Date</th>
-                        <th scope="col">Update</th>
-                        <th scope="col">Delete</th>
+                        <!-- <th scope="col">Update</th>
+                        <th scope="col">Delete</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -149,12 +149,12 @@
                         <td>{{ waiver.waiverorder }}</td>
                         <td>{{ waiver.waiverstatus }}</td>
                         <td>{{ waiver.waiverpickupdate }}</td>
-                        <td>
+                        <!-- <td>
                             <a href="{% url 'updateWaiver' waiver.waiver_id %}" class="btn btn-primary">Update</a>
                         </td>
                         <td>
                             <a href="{% url 'deleteWaiver' waiver.waiver_id %}" class="btn btn-danger">Delete</a>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <tr>

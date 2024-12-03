@@ -128,7 +128,7 @@
                         <th scope="col">Match Date</th>
                         <th scope="col">Final Score</th>
                         <th scope="col">Winner</th>
-                        <th scope="col">Actions</th>
+                        <!-- <th scope="col">Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -140,10 +140,10 @@
                         <td>{{ match.match_date }}</td>
                         <td>{{ match.finalscore }}</td>
                         <td>{{ match.winner.teamname }}</td>
-                        <td>
+                        <!-- <td>
                             <a href="{% url 'updateMatch' match.match_id %}" class="btn btn-primary">Update</a>
                             <a href="{% url 'deleteMatch' match.match_id %}" class="btn btn-danger">Delete</a>
-                        </td>
+                        </td> -->
                     </tr>
                     {% empty %}
                     <tr>
