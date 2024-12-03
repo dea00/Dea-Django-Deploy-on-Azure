@@ -10,7 +10,7 @@ SECRET_KEY = 'oe@m!(49=vl$6(wo&ui_^1&w6lz5)+6l5^1m*3k0+09t95#=&+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []  # 在生产环境中添加域名或 IP 地址
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
