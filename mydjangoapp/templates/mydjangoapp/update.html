@@ -1,0 +1,12 @@
+<!-- update.html -->
+{% include 'mydjangoapp/navbar.html' %}
+
+<div class="form-container">
+    <h2>Update Record</h2>
+    <form method="POST" action="{% url 'update_record' record.id %}">
+        {% csrf_token %}
+        <!-- Dynamically render form fields -->
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Update</button>
+    </form>
+</div>

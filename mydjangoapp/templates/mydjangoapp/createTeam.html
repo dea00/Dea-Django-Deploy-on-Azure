@@ -1,0 +1,51 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Team - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="create-league-container">
+    <h1>Team</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label for="id_teamname">Team Name <span>*</span></label>
+            {{ form.teamname }}
+            <div class="error">{{ form.teamname.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_team_owner">Team Owner <span>*</span></label>
+            {{ form.team_owner }}
+            <div class="error">{{ form.team_owner.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_league">League <span>*</span></label>
+            {{ form.league }}
+            <div class="error">{{ form.league.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_totalpoints">Total Points</label>
+            {{ form.totalpoints }}
+            <div class="error">{{ form.totalpoints.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_ranking">Ranking</label>
+            {{ form.ranking }}
+            <div class="error">{{ form.ranking.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_status">Status</label>
+            {{ form.status }}
+            <div class="error">{{ form.status.errors }}</div>
+        </div>
+
+        <button type="submit" class="create-btn">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Delete Player - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="delete-player-container">
+    <h1>Delete Confirmation</h1>
+    <p>Are you sure you want to delete the player "{{ item.fullname }}"?</p>
+    <div class="delete-actions">
+        <!-- Cancel Button -->
+        <a href="{% url 'players' %}" class="btn btn-cancel">Cancel</a>
+        <!-- Confirm Button -->
+        <form action="{% url 'deletePlayer' item.player_id %}" method="POST" id="delete-form" style="display: inline;">
+            {% csrf_token %}
+            <input type="submit" value="Confirm" class="btn btn-confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

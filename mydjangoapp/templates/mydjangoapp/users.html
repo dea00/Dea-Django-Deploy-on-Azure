@@ -1,0 +1,237 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Leagues and Teams{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="navbar">
+        <button id="menuToggle" aria-label="Toggle Sidebar">☰</button>
+        <h1 id="hello-msg">{{ request.user }}'s dashboard</h1>
+        <div class="user-info">
+            <span>Hello, {{ request.user }}</span>
+            <span><a href="{% url 'logout' %}">Logout</a></span>
+        </div>
+    </div>
+
+    <h1 class="welcome-message">Welcome {{ user.username }}</h1>
+    <p>You have <strong>{{ leagues_count }}</strong> leagues and <strong>{{ teams_count }}</strong> teams.</p>
+
+    <!-- Search Form -->
+    <form class="search-form" method="get">
+        <label>
+            Leaguename: <input type="text" name="leaguename">
+        </label>
+        <label>
+            Leaguetype: <input type="text" name="leaguetype">
+        </label>
+        <label>
+            User:
+            <select name="user">
+                <option value="">----------</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Maxteams: <input type="number" name="maxteams">
+        </label>
+        <label>
+            Draftdate: <input type="date" name="draftdate">
+        </label>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <!-- Leagues Table -->
+    <h2>Your Leagues</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>League ID</th>
+                <th>League Name</th>
+                <th>League Type</th>
+                <th>Max Teams</th>
+                <th>Draft Date</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for league in leagues %}
+            <tr>
+                <td>{{ league.league_id }}</td>
+                <td>{{ league.leaguename }}</td>
+                <td>{{ league.leaguetype }}</td>
+                <td>{{ league.maxteams }}</td>
+                <td>{{ league.draftdate }}</td>
+                <td><a href="{% url 'updateLeague' league.league_id %}">Update</a></td>
+                <td><a href="{% url 'deleteLeague' league.league_id %}">Remove</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No leagues available for this user.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-card">
+        <a href="{% url 'createLeague' %}" class="btn btn-success">+ Create a New League</a>
+    </div>
+
+    <!-- Teams Table -->
+    <h2>Your Teams</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Team ID</th>
+                <th>Team Name</th>
+                <th>League</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_id }}</td>
+                <td>{{ team.teamname }}</td>
+                <td>{{ team.league.leaguename }}</td>
+                <td><a href="{% url 'updateTeam' team.team_id %}">Update</a></td>
+                <td><a href="{% url 'deleteTeam' team.team_id %}">Remove</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No teams available for this user.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-card">
+        <a href="{% url 'createTeam' %}" class="btn btn-success">+ Create a New Team</a>
+    </div>
+
+    <!-- Waivers Table -->
+    <h2>Your Waivers</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Waiver ID</th>
+                <th>Team</th>
+                <th>Player</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Pickup Date</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for waiver in waivers %}
+            <tr>
+                <td>{{ waiver.waiver_id }}</td>
+                <td>{{ waiver.team.teamname }}</td>
+                <td>{{ waiver.player.fullname }}</td>
+                <td>{{ waiver.waiverorder }}</td>
+                <td>{{ waiver.waiverstatus }}</td>
+                <td>{{ waiver.waiverpickupdate }}</td>
+                <td><a href="{% url 'updateWaiver' waiver.waiver_id %}">Update</a></td>
+                <td><a href="{% url 'deleteWaiver' waiver.waiver_id %}">Remove</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No waivers available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-card">
+        <a href="{% url 'createWaiver' %}" class="btn btn-success">+ Create a New Waiver</a>
+    </div>
+
+    <!-- Drafts Table -->
+    <h2>Your Drafts</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Draft ID</th>
+                <th>League</th>
+                <th>Draft Date</th>
+                <th>Draft Order</th>
+                <th>Draft Status</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for draft in drafts %}
+            <tr>
+                <td>{{ draft.draft_id }}</td>
+                <td>{{ draft.league.leaguename }}</td>
+                <td>{{ draft.draftdate }}</td>
+                <td>{{ draft.draftorder }}</td>
+                <td>{{ draft.draftstatus }}</td>
+                <td><a href="{% url 'updateDraft' draft.draft_id %}">Update</a></td>
+                <td><a href="{% url 'deleteDraft' draft.draft_id %}">Remove</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No drafts available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-card">
+        <a href="{% url 'createDraft' %}" class="btn btn-success">+ Create a New Draft</a>
+    </div>
+
+    <!-- Trades Table -->
+    <h2>Your Trades</h2>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Trade ID</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Player 1</th>
+                <th>Player 2</th>
+                <th>Trade Date</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in trades %}
+            <tr>
+                <td>{{ trade.trade_id }}</td>
+                <td>{{ trade.team1.teamname }}</td>
+                <td>{{ trade.team2.teamname }}</td>
+                <td>{{ trade.tradedplayer1.fullname }}</td>
+                <td>{{ trade.tradedplayer2.fullname }}</td>
+                <td>{{ trade.tradedate }}</td>
+                <td><a href="{% url 'updateTrade' trade.trade_id %}">Update</a></td>
+                <td><a href="{% url 'deleteTrade' trade.trade_id %}">Remove</a></td>
+
+
+                
+                
+
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No trades available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-card">
+        <a href="{% url 'createTrade' %}" class="btn btn-success">+ Create a New Trade</a>
+    </div>
+</div>
+
+<style>
+    .create-card {
+        text-align: center;
+        margin: 20px 0;
+    }
+</style>
+{% endblock %}

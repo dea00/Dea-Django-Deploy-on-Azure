@@ -1,0 +1,430 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(to right, #0078D7, #50BFE6);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.navbar #menuToggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: left 0.3s ease;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+}
+
+.sidebar ul li a:hover {
+    background-color: #ddd;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+
+body.sidebar-open .main-content {
+    margin-left: 250px;
+}
+
+/* Table Styles */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+    background-color: #0078D7;
+    color: white;
+}
+
+.styled-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: #0078D7;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #005BB5;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-form input,
+    .search-form select,
+    .search-form button {
+        width: 100%;
+    }
+}
+
+
+/* Create League 页面容器 */
+.create-league-container {
+    max-width: 600px; /* 最大宽度 */
+    margin: 50px auto; /* 居中显示 */
+    padding: 20px;
+    background-color: #ffffff; /* 背景色为白色 */
+    border-radius: 8px; /* 圆角 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    position: relative;
+}
+
+/* 页面标题 */
+.create-league-container h1 {
+    text-align: center;
+    color: #0078D7; /* 标题颜色 */
+    margin-bottom: 20px;
+}
+
+/* 表单样式 */
+.create-league-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 元素之间的间距 */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 统一输入框和下拉框大小 */
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* 元素占满容器宽度 */
+    box-sizing: border-box; /* 包括内边距和边框在内的宽度 */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #0078D7; /* 聚焦时的边框颜色 */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 120, 215, 0.3); /* 聚焦时的阴影效果 */
+}
+
+/* 错误信息 */
+.error {
+    color: #d9534f; /* 错误提示颜色 */
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 提交按钮 */
+.create-btn {
+    background-color: #0078D7;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.create-btn:hover {
+    background-color: #005bb5; /* 按钮悬停时的背景颜色 */
+}
+
+/* 页脚固定在底部 */
+footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .create-league-container {
+        width: 90%; /* 在小屏幕上容器更宽松 */
+    }
+
+    .create-btn {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+}
+
+
+
+
+/* 删除页面容器样式 */
+.delete-league-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 标题样式 */
+.delete-league-container h1 {
+    font-size: 28px;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+/* 提示文本样式 */
+.delete-league-container p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* 按钮容器样式 */
+.delete-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+/* General Button Styles */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cancel Button */
+.btn-cancel {
+    background-color: #6c757d; /* Gray */
+    color: white;
+    border: 1px solid #5a6268;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+    color: white;
+}
+
+/* Confirm Button */
+.btn-confirm {
+    background-color: #dc3545; /* Red */
+    color: white;
+    border: 1px solid #c82333;
+}
+
+.btn-confirm:hover {
+    background-color: #c82333; /* Darker red on hover */
+    color: white;
+}
+
+
+
+
+/* 全局样式 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 登录容器 */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 登录框 */
+.login-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+/* 图标 */
+.login-icon img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+/* 标题 */
+.login-box h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #0078D7;
+}
+
+/* 输入框 */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    border-color: #0078D7;
+    outline: none;
+}
+
+/* 登录按钮 */
+.login-btn-container {
+    margin-top: 20px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #0078D7;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #005BB5;
+}
+
+/* 错误消息 */
+.error-messages {
+    margin-top: 10px;
+    color: red;
+    font-size: 14px;
+}
+
+/* 注册跳转 */
+.signup-redirect {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signup-redirect a {
+    color: #0078D7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-redirect a:hover {
+    text-decoration: underline;
+}

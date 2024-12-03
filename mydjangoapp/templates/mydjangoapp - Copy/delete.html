@@ -1,0 +1,7 @@
+<p>Are you sure you want to delete "{{ item.leaguename }}"?</p>
+
+<form action="{% url 'deleteLeague' item.league_id %}" method="POST">
+    {% csrf_token %}
+    <a href="{% url 'leagues' %}">Cancel</a>
+    <input type="submit" value="Confirm">
+</form>

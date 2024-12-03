@@ -1,0 +1,16 @@
+{% extends 'mydjangoapp/base.html' %}
+ 
+{% block title %}Delete League - Fantasia Game{% endblock %}
+ 
+{% block content %}
+<div class="delete-league-container">
+    <h1>Delete League</h1>
+    <p>Are you sure you want to delete the league "<strong>{{ league.leaguename }}</strong>"?</p>
+ 
+    <form method="POST" class="delete-league-form">
+        {% csrf_token %}
+        <a href="{% url 'leagues' %}" class="cancel-btn">Cancel</a>
+        <button type="submit" class="delete-btn">Delete</button>
+    </form>
+</div>
+{% endblock %}

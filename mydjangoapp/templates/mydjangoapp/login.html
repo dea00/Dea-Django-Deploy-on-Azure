@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fantasia Game</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-icon">
+                <img src="{% static 'images/user.png' %}" alt="Login Icon">
+            </div>
+            <h1>Welcome Back</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <!-- 用户名字段 -->
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        name="username" 
+                        class="form-control" 
+                        placeholder="Username or Email..." 
+                        required>
+                </div>
+
+                <!-- 密码字段 -->
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control" 
+                        placeholder="Password..." 
+                        required>
+                </div>
+
+                <!-- 提交按钮 -->
+                <div class="login-btn-container">
+                    <input 
+                        type="submit" 
+                        value="Login" 
+                        class="btn btn-login">
+                </div>
+            </form>
+
+            <!-- 显示错误信息 -->
+            {% if messages %}
+                <div class="error-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- 注册跳转 -->
+            <div class="signup-redirect">
+                Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

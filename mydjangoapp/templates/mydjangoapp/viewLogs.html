@@ -1,0 +1,29 @@
+{% extends 'mydjangoapp/base.html' %}
+ 
+{% block title %}Deletion Logs{% endblock %}
+ 
+{% block content %}
+<div class="container">
+    <h1>Deletion Logs</h1>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.0 }}</td>
+                <td>{{ log.1 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No logs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

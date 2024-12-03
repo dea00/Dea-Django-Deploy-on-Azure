@@ -1,0 +1,19 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Delete Match - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="delete-match-container">
+    <h1>Delete Confirmation</h1>
+    <p>Are you sure you want to delete the match "{{ item.match_id }}"?</p>
+    <div class="delete-actions">
+        <!-- Cancel Button -->
+        <a href="{% url 'matches' %}" class="btn btn-cancel">Cancel</a>
+        <!-- Confirm Button -->
+        <form action="{% url 'deleteMatch' item.match_id %}" method="POST" id="delete-form" style="display: inline;">
+            {% csrf_token %}
+            <input type="submit" value="Confirm" class="btn btn-confirm">
+        </form>
+    </div>
+</div>  
+{% endblock %}

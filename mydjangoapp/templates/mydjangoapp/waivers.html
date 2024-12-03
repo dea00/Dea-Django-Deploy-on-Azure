@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waivers - Fantasia Game</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -220px; /* Initially hidden */
+            width: 220px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            overflow-y: auto;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar.open {
+            left: 0; /* Shown when open */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Logout Button in Sidebar */
+        .logout-link {
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+            color: red;
+            font-weight: bold;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Shifting */
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .main-content.shift {
+            margin-left: 220px; /* Shifts when sidebar is open */
+        }
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: left 0.3s, background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .menu-btn.shift {
+            left: 230px; /* Moves with the sidebar */
+        }
+
+        .menu-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button id="menuToggle" class="menu-btn" aria-label="Toggle Sidebar">☰</button>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users' user.id %}">Users</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Users (Login Required)</a>
+                {% endif %}
+            </li>
+            <li><a href="{% url 'leagues' %}">Leagues</a></li>
+            <li><a href="{% url 'teams' %}">Teams</a></li>
+            <li><a href="{% url 'players' %}">Players</a></li>
+            <li><a href="{% url 'drafts' %}">Drafts</a></li>
+            <li><a href="{% url 'matches' %}">Matches</a></li>
+            <li><a href="{% url 'player_statistics' %}">Player Statistics</a></li>
+            <li><a href="{% url 'trades' %}">Trades</a></li>
+            <li><a href="{% url 'waivers' %}">Waivers</a></li>
+        </ul>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <h2 class="page-title">Waivers</h2>
+
+            <!-- Waivers Table -->
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Player</th>
+                        <th scope="col">Order</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Pickup Date</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for waiver in waivers %}
+                    <tr>
+                        <td>{{ waiver.waiver_id }}</td>
+                        <td>{{ waiver.team.teamname }}</td>
+                        <td>{{ waiver.player.fullname }}</td>
+                        <td>{{ waiver.waiverorder }}</td>
+                        <td>{{ waiver.waiverstatus }}</td>
+                        <td>{{ waiver.waiverpickupdate }}</td>
+                        <td>
+                            <a href="{% url 'updateWaiver' waiver.waiver_id %}" class="btn btn-primary">Update</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'deleteWaiver' waiver.waiver_id %}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">No data available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Create Waiver Button -->
+            <div class="create-league-card">
+                <a href="{% url 'createWaiver' %}" class="btn btn-success">
+                    <span class="create-icon">+</span> Create a New Waiver
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Toggle Sidebar -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shift');
+            menuToggle.classList.toggle('shift');
+        });
+    </script>
+</body>
+</html>

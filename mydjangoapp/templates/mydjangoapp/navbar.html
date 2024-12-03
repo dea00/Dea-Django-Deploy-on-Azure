@@ -1,0 +1,40 @@
+<!-- navbar.html -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <!-- Icon/Menu Button -->
+        <button class="menu-btn" onclick="toggleSidebar()">
+            <i class="fa fa-bars"></i> <!-- Example icon from FontAwesome -->
+        </button>
+
+        <!-- Greeting -->
+        <span class="navbar-greeting">
+            Hello, {{ user.get_full_name }}!
+        </span>
+
+        <!-- Logout Button -->
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #0078D7;
+        padding: 10px 20px;
+        color: white;
+    }
+    .menu-btn, .logout-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .navbar-greeting {
+        font-size: 16px;
+    }
+</style>

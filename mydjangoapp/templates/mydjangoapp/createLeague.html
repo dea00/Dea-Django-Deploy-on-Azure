@@ -1,0 +1,50 @@
+{% extends 'mydjangoapp/base.html' %}
+ 
+{% block title %}Create League - Fantasia Game{% endblock %}
+ 
+{% block content %}
+<div class="create-league-container">
+    <h1>Create League</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+       
+        <div class="form-group">
+            <label for="id_leaguename">League Name <span>*</span></label>
+            <input type="text" id="id_leaguename" name="leaguename" placeholder="Enter league name" required>
+            <div class="error"></div>
+        </div>
+ 
+        <div class="form-group">
+            <label for="id_maxteams">Max Teams <span>*</span></label>
+            <input type="number" id="id_maxteams" name="maxteams" placeholder="Enter max teams" required>
+            <div class="error"></div>
+        </div>
+ 
+        <div class="form-group">
+            <label for="id_user">Owner <span>*</span></label>
+            <select id="id_user" name="user" required>
+                <option value="" disabled selected>Select owner</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <div class="error"></div>
+        </div>
+ 
+        <div class="form-group">
+            <label for="id_draftdate">Draft Date</label>
+            <input type="date" id="id_draftdate" name="draftdate">
+            <div class="error"></div>
+        </div>
+ 
+        <div class="form-group">
+            <label for="id_leaguetype">League Type <span>*</span></label>
+            <input type="text" id="id_leaguetype" name="leaguetype" placeholder="Enter league type" required>
+            <div class="error"></div>
+        </div>
+ 
+        <button type="submit" class="create-btn">Submit</button>
+    </form>
+</div>
+{% endblock %}
+ 

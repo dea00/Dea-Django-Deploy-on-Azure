@@ -1,0 +1,19 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Delete Draft - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="delete-draft-container">
+    <h1>Delete Confirmation</h1>
+    <p>Are you sure you want to delete the draft "{{ item.draft_id }}"?</p> <!-- 修改为草稿的字段 -->
+    <div class="delete-actions">
+        <!-- Cancel Button -->
+        <a href="{% url 'drafts' %}" class="btn btn-cancel">Cancel</a>
+        <!-- Confirm Button -->
+        <form action="{% url 'deleteDraft' item.draft_id %}" method="POST" id="delete-form" style="display: inline;">
+            {% csrf_token %}
+            <input type="submit" value="Confirm" class="btn btn-confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

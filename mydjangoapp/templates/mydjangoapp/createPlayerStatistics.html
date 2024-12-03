@@ -1,0 +1,52 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Player Statistic - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="create-league-container">
+    <h1>Player Statistic</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Player -->
+        <div class="form-group">
+            <label for="id_player">Player <span>*</span></label>
+            <select name="player" id="id_player" class="form-control">
+                {% for player in form.player.field.queryset %}
+                <option value="{{ player.player_id }}" {% if player.player_id == form.player.value %}selected{% endif %}>
+                    {{ player.fullname }} - {{ player.sport }}
+                </option>
+                {% endfor %}
+            </select>
+            <div class="error">{{ form.player.errors }}</div>
+        </div>
+
+        <!-- Game Date -->
+        <div class="form-group">
+            <label for="id_gamedate">Game Date <span>*</span></label>
+            {{ form.gamedate }}
+            <div class="error">{{ form.gamedate.errors }}</div>
+        </div>
+
+        <!-- Performance Stats -->
+        <div class="form-group">
+            <label for="id_performancestats">Performance Stats</label>
+            {{ form.performancestats }}
+            <div class="error">{{ form.performancestats.errors }}</div>
+        </div>
+
+        <!-- Injury Status -->
+        <div class="form-group">
+            <label for="id_injurystatus">Injury Status</label>
+            <select name="injurystatus" id="id_injurystatus" class="form-control">
+                <option value="N" {% if form.injurystatus.value == "N" %}selected{% endif %}>No Injury</option>
+                <option value="Y" {% if form.injurystatus.value == "Y" %}selected{% endif %}>Injured</option>
+            </select>
+            <div class="error">{{ form.injurystatus.errors }}</div>
+        </div>
+
+        <button type="submit" class="create-btn">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Leagues - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="search-leagues-container">
+    <h1>Search Leagues</h1>
+    <form method="GET" class="search-bar-form">
+        {% csrf_token %}
+        <div class="search-bar">
+            {{ myFilter.form.as_p }}
+            <button type="submit" class="search-btn">Search</button>
+        </div>
+    </form>
+    <div class="results-section">
+        <h2>Your Leagues</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>League ID</th>
+                    <th>League Name</th>
+                    <th>League Type</th>
+                    <th>Max Teams</th>
+                    <th>Draft Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for league in leagues %}
+                <tr>
+                    <td>{{ league.league_id }}</td>
+                    <td>{{ league.leaguename }}</td>
+                    <td>{{ league.leaguetype }}</td>
+                    <td>{{ league.maxteams }}</td>
+                    <td>{{ league.draftdate }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No leagues found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

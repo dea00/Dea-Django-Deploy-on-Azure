@@ -1,0 +1,39 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Draft - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="create-league-container">
+    <h1> Draft</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label for="id_league">League <span>*</span></label>
+            {{ form.league }}
+            <div class="error">{{ form.league.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_draftdate">Draft Date</label>
+            {{ form.draftdate }}
+            <div class="error">{{ form.draftdate.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_draftorder">Draft Order <span>*</span></label>
+            {{ form.draftorder }}
+            <div class="error">{{ form.draftorder.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_draftstatus">Draft Status</label>
+            {{ form.draftstatus }}
+            <div class="error">{{ form.draftstatus.errors }}</div>
+        </div>
+
+        <button type="submit" class="create-btn">Submit</button>
+    </form>
+</div>
+{% endblock %}

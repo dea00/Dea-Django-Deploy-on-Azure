@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update League - Fantasia Game</title>
+    <style>
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -220px; /* Initially hidden */
+            width: 220px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            overflow-y: auto;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar.open {
+            left: 0; /* Shown when open */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Logout Button in Sidebar */
+        .logout-link {
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+            color: red;
+            font-weight: bold;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Shifting */
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .main-content.shift {
+            margin-left: 220px; /* Shifts when sidebar is open */
+        }
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: left 0.3s, background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .menu-btn.shift {
+            left: 230px; /* Moves with the sidebar */
+        }
+
+        .menu-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styling */
+        .update-league-container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        .update-league-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .update-league-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .update-btn {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .update-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button id="menuToggle" class="menu-btn" aria-label="Toggle Sidebar">☰</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Leagues</a></li>
+            <li><a href="#">Teams</a></li>
+            <li><a href="#">Players</a></li>
+            <li><a href="#">Drafts</a></li>
+            <li><a href="#">Matches</a></li>
+            <li><a href="#">Player Statistics</a></li>
+            <li><a href="#">Trades</a></li>
+            <li><a href="#">Waivers</a></li>
+        </ul>
+        <a href="#" class="logout-link">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="update-league-container">
+            <h1>Update League</h1>
+            <form method="POST" class="update-league-form">
+                <div class="form-group">
+                    <label for="id_leaguename">League Name <span>*</span></label>
+                    <input type="text" id="id_leaguename" name="leaguename" value="Super League" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_maxteams">Max Teams <span>*</span></label>
+                    <input type="number" id="id_maxteams" name="maxteams" value="12" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_user">Owner <span>*</span></label>
+                    <select id="id_user" name="user" required>
+                        <option value="1" selected>blake</option>
+                        <option value="2">john</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_draftdate">Draft Date</label>
+                    <input type="date" id="id_draftdate" name="draftdate" value="2023-08-12">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_leaguetype">League Type <span>*</span></label>
+                    <input type="text" id="id_leaguetype" name="leaguetype" value="P" required>
+                </div>
+
+                <button type="submit" class="update-btn">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shift');
+            menuToggle.classList.toggle('shift');
+        });
+    </script>
+</body>
+</html>

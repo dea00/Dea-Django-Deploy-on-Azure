@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Create League - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="create-league-container">
+    <h1>Create a New League</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label for="id_leaguename">League Name <span>*</span></label>
+            {{ form.leaguename }}
+            <div class="error">{{ form.leaguename.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_maxteams">Max Teams <span>*</span></label>
+            {{ form.maxteams }}
+            <div class="error">{{ form.maxteams.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_user">Owner <span>*</span></label>
+            {{ form.user }}
+            <div class="error">{{ form.user.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_draftdate">Draft Date</label>
+            {{ form.draftdate }}
+            <div class="error">{{ form.draftdate.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_leaguetype">League Type <span>*</span></label>
+            {{ form.leaguetype }}
+            <div class="error">{{ form.leaguetype.errors }}</div>
+        </div>
+
+        <button type="submit" class="create-btn">Create</button>
+    </form>
+</div>
+{% endblock %}

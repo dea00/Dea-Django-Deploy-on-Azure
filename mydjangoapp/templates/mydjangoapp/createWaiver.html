@@ -1,0 +1,45 @@
+{% extends 'mydjangoapp/base.html' %}
+
+{% block title %}Waiver - Fantasia Game{% endblock %}
+
+{% block content %}
+<div class="create-league-container">
+    <h1>Waiver</h1>
+    <form method="POST" class="create-league-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label for="id_team">Team <span>*</span></label>
+            {{ form.team }}
+            <div class="error">{{ form.team.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_player">Player <span>*</span></label>
+            {{ form.player }}
+            <div class="error">{{ form.player.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_waiverorder">Waiver Order <span>*</span></label>
+            {{ form.waiverorder }}
+            <div class="error">{{ form.waiverorder.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_waiverstatus">Waiver Status</label>
+            {{ form.waiverstatus }}
+            <div class="error">{{ form.waiverstatus.errors }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_waiverpickupdate">Pickup Date</label>
+            {{ form.waiverpickupdate }}
+            <div class="error">{{ form.waiverpickupdate.errors }}</div>
+        </div>
+
+        <button type="submit" class="create-btn">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!-- search.html -->
+{% include 'mydjangoapp/navbar.html' %}
+
+<div class="search-container">
+    <h2>Search Records</h2>
+    <form method="GET" action="{% url 'search_records' %}">
+        <input type="text" name="q" placeholder="Search..." class="search-input">
+        <button type="submit" class="btn-search">Search</button>
+    </form>
+    <ul>
+        {% for record in records %}
+            <li>{{ record }}</li>
+        {% empty %}
+            <li>No results found</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    .search-container {
+        max-width: 500px;
+        margin: 20px auto;
+        text-align: center;
+    }
+    .search-input {
+        padding: 10px;
+        width: 80%;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    .btn-search {
+        background-color: #0078D7;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+</style>

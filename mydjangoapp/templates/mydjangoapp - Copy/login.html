@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fantasia Game</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <div class="back-button">
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-icon">
+                <img src="{% static 'images/user.png' %}" alt="Login Icon">
+            </div>
+            <h1>Welcome Back</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <!-- Username Field -->
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        class="form-control" 
+                        placeholder="Username or Email..." 
+                        required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control" 
+                        placeholder="Password..." 
+                        required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center mt-3 login-container">
+                    <input 
+                        type="submit" 
+                        value="Login" 
+                        class="btn btn-primary btn-block login-btn">
+                </div>
+            </form>
+
+            <!-- Display Error Messages -->
+            {% for message in messages %}
+                <p id="messages">{{ message }}</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Signup Redirect Section -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-center links">
+                Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
