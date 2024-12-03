@@ -29,9 +29,13 @@ conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.s
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': conn_str_params['dbname'],
-        'HOST': conn_str_params['host'],
-        'USER': conn_str_params['user'],
-        'PASSWORD': conn_str_params['password'],
+        'NAME': 'azuredjangoproject-database-database',
+        'HOST': 'azuredjangoproject-database-server.postgres.database.azure.com',
+        'PORT': '5432',
+        'USER': 'essxruepga',
+        'PASSWORD': 'uwWcNs$hZGRT69He',
+        'OPTIONS': {
+            'sslmode': 'require'
+        },
     }
 }
