@@ -59,10 +59,13 @@ class TradeForm(forms.ModelForm):
         }
  
 # Form for Drafts
-class DraftForm(ModelForm):
+class DraftForm(forms.ModelForm):
     class Meta:
         model = Drafts
-        fields = '__all__'
+        fields = ['draftdate', 'league', 'draftorder', 'draftstatus']
+        widgets = {
+            'draftdate': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
  
 # Form for Waivers
 class WaiverForm(ModelForm):

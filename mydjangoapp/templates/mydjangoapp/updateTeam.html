@@ -1,46 +1,60 @@
 {% extends 'mydjangoapp/base.html' %}
- 
-{% block title %}Create Team - Fantasia Game{% endblock %}
- 
+
+{% block title %}Update Team - Fantasia Game{% endblock %}
+
 {% block content %}
-<div class="create-team-container">
-    <h1>Create Team</h1>
-    <form method="POST" class="create-team-form">
+<div class="update-team-container">
+    <h1>Update Team</h1>
+    <form method="POST" class="update-team-form">
         {% csrf_token %}
-       
+
         <!-- Team Name -->
         <div class="form-group">
             <label for="id_teamname">Team Name <span>*</span></label>
-            <input type="text" id="id_teamname" name="teamname" placeholder="Enter team name" required>
+            <input type="text" id="id_teamname" name="teamname" value="{{ team.teamname }}" required>
             <div class="error"></div>
         </div>
- 
-        <!-- League -->
+
+        <!-- Team Owner (Only Logged-in User) -->
         <div class="form-group">
-            <label for="id_league">League <span>*</span></label>
-            <select id="id_league" name="league" required>
-                <option value="" disabled selected>Select a league</option>
-                {% for league in leagues %}
-                <option value="{{ league.0 }}">{{ league.1 }}</option>
+            <label for="id_team_owner">Team Owner <span>*</span></label>
+            <select id="id_team_owner" name="team_owner" required>
+                {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id == team.team_owner_id %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
                 {% endfor %}
             </select>
             <div class="error"></div>
         </div>
- 
+
+        <!-- League -->
+        <div class="form-group">
+            <label for="id_league">League <span>*</span></label>
+            <select id="id_league" name="league" required>
+                {% for league in leagues %}
+                <option value="{{ league.league_id }}" {% if league.league_id == team.league_id %}selected{% endif %}>
+                    {{ league.leaguename }}
+                </option>
+                {% endfor %}
+            </select>
+            <div class="error"></div>
+        </div>
+
         <!-- Total Points -->
         <div class="form-group">
             <label for="id_totalpoints">Total Points</label>
-            <input type="number" id="id_totalpoints" name="totalpoints" step="0.01" placeholder="Enter total points">
+            <input type="number" id="id_totalpoints" name="totalpoints" step="0.01" value="{{ team.totalpoints }}">
             <div class="error"></div>
         </div>
- 
+
         <!-- Ranking -->
         <div class="form-group">
             <label for="id_ranking">Ranking</label>
-            <input type="number" id="id_ranking" name="ranking" placeholder="Enter ranking">
+            <input type="number" id="id_ranking" name="ranking" value="{{ team.ranking }}">
             <div class="error"></div>
         </div>
- 
+
         <!-- Status -->
         <div class="form-group">
             <label for="id_status">Status</label>
@@ -48,11 +62,9 @@
                 <option value="A" {% if team.status == "A" %}selected{% endif %}>A</option>
                 <option value="I" {% if team.status == "I" %}selected{% endif %}>I</option>
             </select>
-            <div class="error"></div>
         </div>
-        
- 
-        <button type="submit" class="create-btn">Submit</button>
+
+        <button type="submit" class="update-btn">Update</button>
     </form>
 </div>
 {% endblock %}

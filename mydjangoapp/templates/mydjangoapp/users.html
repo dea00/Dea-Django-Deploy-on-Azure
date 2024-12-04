@@ -64,8 +64,8 @@
                 <td>{{ league.leaguetype }}</td>
                 <td>{{ league.maxteams }}</td>
                 <td>{{ league.draftdate }}</td>
-                <td><a href="{% url 'updateLeague' league.league_id %}">Update</a></td>
-                <td><a href="{% url 'deleteLeague' league.league_id %}">Remove</a></td>
+                <td><a href="{% url 'updateLeague' league.league_id %}" class="btn btn-primary">Update</a></td>
+                <td><a href="{% url 'deleteLeague' league.league_id %}" class="btn btn-primary">Remove</a></td>
             </tr>
             {% empty %}
             <tr>
@@ -86,6 +86,9 @@
                 <th>Team ID</th>
                 <th>Team Name</th>
                 <th>League</th>
+                <th>Total Points</th>
+                <th>Ranking</th>
+                <th>Status</th>
                 <th>Update</th>
                 <th>Remove</th>
             </tr>
@@ -96,8 +99,11 @@
                 <td>{{ team.team_id }}</td>
                 <td>{{ team.teamname }}</td>
                 <td>{{ team.league.leaguename }}</td>
-                <td><a href="{% url 'updateTeam' team.team_id %}">Update</a></td>
-                <td><a href="{% url 'deleteTeam' team.team_id %}">Remove</a></td>
+                <td>{{ team.totalpoints }}</td>
+                <td>{{ team.ranking }}</td>
+                <td>{{ team.status }}</td>
+                <td><a href="{% url 'updateTeam' team.team_id %}" class="btn btn-primary">Update</a></td>
+                <td><a href="{% url 'deleteTeam' team.team_id %}" class="btn btn-primary">Remove</a></td>
             </tr>
             {% empty %}
             <tr>
@@ -110,40 +116,52 @@
         <a href="{% url 'createTeam' %}" class="btn btn-success">+ Create a New Team</a>
     </div>
 
-    <h2>Your Trades</h2>
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <th>Trade ID</th>
-                <th>Team 1</th>
-                <th>Team 2</th>
-                <th>Player 1</th>
-                <th>Player 2</th>
-                <th>Trade Date</th>
-                <th>Update</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for trade in trades %}
-            <tr>
-                <td>{{ trade.trade_id }}</td>
-                <td>{{ trade.team1_name }}</td> <!-- Team 1 Name -->
-                <td>{{ trade.team2_name }}</td> <!-- Team 2 Name -->
-                <td>{{ trade.player1_name }}</td> <!-- Player 1 Name -->
-                <td>{{ trade.player2_name }}</td> <!-- Player 2 Name -->
-                <td>{{ trade.tradedate }}</td>
-                <td><a href="{% url 'updateTrade' trade.trade_id %}">Update</a></td>
-                <td><a href="{% url 'deleteTrade' trade.trade_id %}">Remove</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8">No trades available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
+    <!-- Waivers Table -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <h2 class="page-title">Waivers</h2>
+
+            <!-- Waivers Table -->
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Player</th>
+                        <th scope="col">Order</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Pickup Date</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for waiver in waivers %}
+                    <tr>
+                        <td>{{ waiver.waiver_id }}</td>
+                        <td>{{ waiver.team.teamname }}</td>
+                        <td>{{ waiver.player.fullname }}</td>
+                        <td>{{ waiver.waiverorder }}</td>
+                        <td>{{ waiver.waiverstatus }}</td>
+                        <td>{{ waiver.waiverpickupdate }}</td>
+                        <td>
+                            <a href="{% url 'updateWaiver' waiver.waiver_id %}" class="btn btn-primary">Update</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'deleteWaiver' waiver.waiver_id %}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">No data available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    <div class="create-card">
+        <a href="{% url 'createWaiver' %}" class="btn btn-success">+ Create a New Waiver</a>
+    </div>
+
     
 
     <!-- Drafts Table -->
@@ -168,8 +186,8 @@
                 <td>{{ draft.draftdate }}</td>
                 <td>{{ draft.draftorder }}</td>
                 <td>{{ draft.draftstatus }}</td>
-                <td><a href="{% url 'updateDraft' draft.draft_id %}">Update</a></td>
-                <td><a href="{% url 'deleteDraft' draft.draft_id %}">Remove</a></td>
+                <td><a href="{% url 'updateDraft' draft.draft_id %}" class="btn btn-primary">Update</a></td>
+                <td><a href="{% url 'deleteDraft' draft.draft_id %}" class="btn btn-primary">Remove</a></td>
             </tr>
             {% empty %}
             <tr>
@@ -206,8 +224,8 @@
                 <td>{{ trade.player1_name }}</td>
                 <td>{{ trade.player2_name }}</td>
                 <td>{{ trade.tradedate }}</td>
-                <td><a href="{% url 'updateTrade' trade.trade_id %}">Update</a></td>
-                <td><a href="{% url 'deleteTrade' trade.trade_id %}">Remove</a></td>
+                <td><a href="{% url 'updateTrade' trade.trade_id %}" class="btn btn-primary">Update</a></td>
+                <td><a href="{% url 'deleteTrade' trade.trade_id %}" class="btn btn-primary">Remove</a></td>
             </tr>
             {% empty %}
             <tr>

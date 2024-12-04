@@ -3,9 +3,9 @@
 {% block title %}Create Waiver{% endblock %}
 
 {% block content %}
-<div class="create-league-container">
+<div class="create-waiver-container">
     <h1>Create Waiver</h1>
-    <form method="POST" class="create-league-form">
+    <form method="POST" class="create-waiver-form">
         {% csrf_token %}
 
         <!-- Team Dropdown -->
@@ -17,6 +17,7 @@
                 <option value="{{ team.0 }}">{{ team.1 }}</option>
                 {% endfor %}
             </select>
+            <div class="error"></div>
         </div>
 
         <!-- Player Dropdown -->
@@ -28,27 +29,80 @@
                 <option value="{{ player.0 }}">{{ player.1 }}</option>
                 {% endfor %}
             </select>
+            <div class="error"></div>
         </div>
 
         <!-- Waiver Order -->
         <div class="form-group">
             <label for="id_waiverorder">Waiver Order <span>*</span></label>
-            <input type="number" id="id_waiverorder" name="waiverorder" required>
+            <input type="number" id="id_waiverorder" name="waiverorder" placeholder="Enter Waiver Order" required>
+            <div class="error"></div>
         </div>
 
         <!-- Waiver Status -->
         <div class="form-group">
             <label for="id_waiverstatus">Waiver Status</label>
-            <input type="text" id="id_waiverstatus" name="waiverstatus">
+            <input type="text" id="id_waiverstatus" name="waiverstatus" placeholder="Enter Waiver Status">
+            <div class="error"></div>
         </div>
 
         <!-- Waiver Pickup Date -->
         <div class="form-group">
             <label for="id_waiverpickupdate">Pickup Date</label>
             <input type="date" id="id_waiverpickupdate" name="waiverpickupdate">
+            <div class="error"></div>
         </div>
 
         <button type="submit" class="create-btn">Submit</button>
     </form>
 </div>
+
+<style>
+    .create-waiver-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    select, input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .create-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .create-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
 {% endblock %}

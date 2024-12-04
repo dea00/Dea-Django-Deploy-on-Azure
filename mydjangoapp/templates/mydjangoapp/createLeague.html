@@ -37,7 +37,10 @@
  
         <div class="form-group">
             <label for="id_leaguetype">League Type <span>*</span></label>
-            <input type="text" id="id_leaguetype" name="leaguetype" placeholder="Enter league type" required>
+            <select id="id_leaguetype" name="leaguetype" required>
+                <option value="P" {% if league.leaguetype == "P" %}selected{% endif %}>P</option>
+                <option value="R" {% if league.leaguetype == "R" %}selected{% endif %}>R</option>
+            </select>
             <div class="error"></div>
         </div>
  

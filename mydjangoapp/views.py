@@ -87,9 +87,6 @@ def get_user_data(request):
     return render(request, 'mydjangoapp/dashboard.html', context) 
 
 
-
-
-
 @unauthenticated_user
 def register_view(request):
     # form = CreateUserForm()
@@ -303,7 +300,7 @@ def updateLeague(request, pk):
         maxteams = request.POST.get('maxteams')
         draftdate = request.POST.get('draftdate')
         user_id = request.POST.get('user')
- 
+
         try:
             with connection.cursor() as cursor:
                 cursor.execute("""
@@ -314,29 +311,75 @@ def updateLeague(request, pk):
             return redirect('leagues')
         except Exception as e:
             return HttpResponse(f"An error occurred: {e}")
- 
+
     try:
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM leagues WHERE league_id = %s", [pk])
             league = dictfetchone(cursor)  # Helper function for fetching one result as a dictionary
     except Exception as e:
         return HttpResponse(f"An error occurred: {e}")
- 
+
     users = AuthUser.objects.all()
     return render(request, 'mydjangoapp/updateLeague.html', {'league': league, 'users': users})
-    
+
 def updateTeam(request, pk):
-    team = Teams.objects.get(team_id=pk)  # Fetch the team to be updated
-    form = TeamForm(instance=team)  # Pre-fill the form with the current team data
- 
     if request.method == 'POST':
-        form = TeamForm(request.POST, instance=team)  # Handle POST data with TeamForm
-        if form.is_valid():
-            form.save()  # Save the updated data
-            return redirect('teams')  # Redirect to the teams page
+        teamname = request.POST.get('teamname')
+        team_owner = request.POST.get('team_owner')
+        league_id = request.POST.get('league')
+        totalpoints = request.POST.get('totalpoints')
+        ranking = request.POST.get('ranking')
+        status = request.POST.get('status')
+
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    UPDATE teams
+                    SET teamname = %s, team_owner = %s, league_id = %s, totalpoints = %s, ranking = %s, status = %s
+                    WHERE team_id = %s
+                """, [teamname, team_owner, league_id, totalpoints, ranking, status, pk])
+            return redirect('teams')
+        except Exception as e:
+            return HttpResponse(f"An error occurred: {e}")
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM teams WHERE team_id = %s", [pk])
+            team = dictfetchone(cursor)  # Helper function to fetch one result as a dictionary
+    except Exception as e:
+        return HttpResponse(f"An error occurred: {e}")
+
+    users = AuthUser.objects.filter(id=request.user.id)  # Only the logged-in user
+    leagues = Leagues.objects.all()
+    return render(request, 'mydjangoapp/updateTeam.html', {'team': team, 'users': users, 'leagues': leagues})
+
+
+    
+# def updateTeam(request, pk):
+#     team = Teams.objects.get(team_id=pk)  # Fetch the team to be updated
+#     form = TeamForm(instance=team)  # Pre-fill the form with the current team data
  
-    context = {'form': form}
-    return render(request, 'mydjangoapp/createTeam.html', context)
+#     if request.method == 'POST':
+#         form = TeamForm(request.POST, instance=team)  # Handle POST data with TeamForm
+#         if form.is_valid():
+#             form.save()  # Save the updated data
+#             return redirect('teams')  # Redirect to the teams page
+ 
+#     context = {'form': form}
+#     return render(request, 'mydjangoapp/createTeam.html', context)
+
+# def updateTeam(request, pk):
+#     team = Teams.objects.get(team_id=pk)  # Fetch the team to be updated
+#     form = TeamForm(instance=team)  # Pre-fill the form with the current team data
+ 
+#     if request.method == 'POST':
+#         form = TeamForm(request.POST, instance=team)  # Handle POST data with TeamForm
+#         if form.is_valid():
+#             form.save()  # Save the updated data
+#             return redirect('teams')  # Redirect to the teams page
+ 
+#     context = {'form': form}
+#     return render(request, 'mydjangoapp/createTeam.html', context)
  
 def updateMatch(request, pk):
     match = Matches.objects.get(match_id=pk)  # Fetch the match to be updated
@@ -847,7 +890,7 @@ def deleteWaiver(request, pk):
         waiver.delete()
         return redirect('waivers')  # Redirect to the waivers page
     context = {'item': waiver}
-    return render(request, 'mydjangoapp/deleteWaivers.html', context)
+    return render(request, 'mydjangoapp/deleteWaiver.html', context)
  
 def deletePlayer(request, pk):
     player = Players.objects.get(player_id=pk)
